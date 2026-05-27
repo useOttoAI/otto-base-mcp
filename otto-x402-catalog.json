@@ -1,0 +1,61 @@
+{
+  "name": "Otto Intelligence",
+  "description": "Otto AI's live x402 intelligence services for Base MCP — market alpha, KOL sentiment, yield discovery, token security, and AI research. Paid per call from a Base Account in USDC on Base.",
+  "version": "1.0.0",
+  "license": "MIT",
+  "publisher": "Otto AI",
+  "twitter": "@useOttoAI",
+  "skill": "https://x402.ottoai.services/otto.md",
+  "baseUrl": "https://x402.ottoai.services",
+  "permissions": {
+    "network": ["fetch:https://x402.ottoai.services"],
+    "signing": "none",
+    "custody": "non-custodial",
+    "note": "Read-only. The skill itself signs nothing and holds no keys; the user's Base Account signs each x402 payment via Base MCP, which the user approves. Reached only through Base MCP's x402 payment tools — no web_request allowlist entry required."
+  },
+  "payment": {
+    "protocol": "x402",
+    "version": 2,
+    "asset": "USDC",
+    "chain": "eip155:8453",
+    "chainName": "Base",
+    "baseMcpTools": ["initiate_x402_request", "complete_x402_request"],
+    "siwx": "Read endpoints allow pay-once, re-access ~1h via wallet signature.",
+    "priceSource": "Prices in this catalog are INDICATIVE. The live 402 challenge (PAYMENT-REQUIRED header) is the single source of truth — always set maxPayment from it, never from this file."
+  },
+  "note": "Execution endpoints (swap/bridge/perps) are intentionally excluded — paying an x402 endpoint signs a payment, not the underlying financial action. Act on Otto's intelligence with Base's own execution plugins (Uniswap/Aerodrome/Morpho/Moonwell/Avantis) or Base MCP's wallet tools; for bounded delegation see Otto autonomy at https://useotto.xyz.",
+  "endpoints": [
+    { "path": "/crypto-news", "method": "GET", "price": "0.001", "class": "read-only", "category": "Market Intelligence", "description": "Real-time crypto news with sentiment and ranked headlines." },
+    { "path": "/twitter-summary", "method": "GET", "price": "0.01", "class": "read-only", "category": "Market Intelligence", "description": "Curated crypto-Twitter digest from top KOLs." },
+    { "path": "/filtered-news", "method": "GET", "price": "0.10", "class": "read-only", "category": "Market Intelligence", "params": { "topic": "string" }, "description": "AI-filtered news by topic." },
+    { "path": "/token-details", "method": "GET", "price": "0.10", "class": "read-only", "category": "Market Intelligence", "params": { "symbol": "string" }, "description": "Token price, market cap, 24h change." },
+    { "path": "/token-alpha", "method": "GET", "price": "0.10", "class": "read-only", "category": "Market Intelligence", "params": { "symbol": "string" }, "description": "Premium token intelligence with trading signals." },
+    { "path": "/kol-sentiment", "method": "GET", "price": "0.10", "class": "read-only", "category": "Market Intelligence", "description": "Aggregated sentiment from top 50 crypto KOLs." },
+    { "path": "/trending-altcoins", "method": "GET", "price": "0.10", "class": "read-only", "category": "Market Intelligence", "description": "Top trending altcoins with analysis." },
+    { "path": "/mega-report", "method": "GET", "price": "0.25", "class": "read-only", "category": "Market Intelligence", "description": "Comprehensive daily market briefing." },
+    { "path": "/token-security", "method": "GET", "price": "0.10", "class": "read-only", "category": "Data Intelligence", "params": { "address": "string", "chain": "chainId" }, "description": "Contract security audit (honeypot/rug/tax) via GoPlus." },
+    { "path": "/funding-rates", "method": "GET", "price": "0.10", "class": "read-only", "category": "Data Intelligence", "params": { "symbol": "string (optional)" }, "description": "Funding rates, OI, long/short ratios, whale positions." },
+    { "path": "/defi-analytics", "method": "GET", "price": "0.10", "class": "read-only", "category": "Data Intelligence", "params": { "protocol": "string (optional)" }, "description": "TVL rankings, chain breakdown, gainers/losers." },
+    { "path": "/tradfi-data", "method": "GET", "price": "0.10", "class": "read-only", "category": "Data Intelligence", "params": { "symbol": "string (optional)" }, "description": "Macro intelligence: indices, VIX, DXY, yields, commodities." },
+    { "path": "/yield-alpha", "method": "GET", "price": "0.10", "class": "read-only", "category": "Yield", "description": "Top DeFi yield opportunities across chains." },
+    { "path": "/yield-markets", "method": "GET", "price": "0.001", "class": "read-only", "category": "Yield", "description": "Available DeFi yield-farming markets." },
+    { "path": "/idle-capital", "method": "GET", "price": "0.001", "class": "read-only", "category": "Yield", "params": { "userAddress": "address" }, "description": "Detect undeployed tokens that could earn yield (vaults.fyi)." },
+    { "path": "/yield-recommendations", "method": "GET", "price": "0.001", "class": "read-only", "category": "Yield", "params": { "userAddress": "address" }, "description": "Personalized yield-vault recommendations (vaults.fyi)." },
+    { "path": "/llm-research", "method": "POST", "price": "0.50", "class": "compute", "category": "AI Research", "body": { "prompt": "string (<=180 chars)" }, "description": "AI research assistant with live web search." },
+    { "path": "/tx-explainer", "method": "POST", "price": "0.01", "class": "compute", "category": "AI Research", "body": { "txHash": "0x...", "chain": "string" }, "description": "Decode and explain an EVM transaction (11 chains)." },
+    { "path": "/generate-meme", "method": "POST", "price": "1.00", "class": "compute", "category": "AI Creative", "body": { "prompt": "string", "model": "gpt-image-2|nano-banana-pro", "aspect_ratio": "string" }, "description": "Multi-model image generation via fal.ai." },
+    { "path": "/portfolio", "method": "GET", "price": "0.001", "class": "read-only", "category": "Portfolio", "params": { "userId": "address" }, "description": "Multi-chain token balances." },
+    { "path": "/transaction-history", "method": "GET", "price": "0.001", "class": "read-only", "category": "Portfolio", "params": { "userId": "address" }, "description": "Trade history." },
+    { "path": "/supported-tokens", "method": "GET", "price": "0.001", "class": "read-only", "category": "Portfolio", "params": { "chainId": "id", "search": "symbol" }, "description": "Search tokens by symbol on a chain." },
+    { "path": "/hyperliquid-account", "method": "GET", "price": "0.001", "class": "read-only", "category": "Portfolio", "params": { "address": "address" }, "description": "Perpetual futures account info." },
+    { "path": "/hyperliquid-market", "method": "GET", "price": "0.001", "class": "read-only", "category": "Portfolio", "params": { "asset": "string" }, "description": "Perpetual market data and funding rates." },
+    { "path": "/hl-transaction-history", "method": "GET", "price": "0.001", "class": "read-only", "category": "Portfolio", "params": { "address": "address" }, "description": "Perpetual trading history." },
+    { "path": "/yield-farming-active", "method": "GET", "price": "0.001", "class": "read-only", "category": "Portfolio", "params": { "userAddress": "address" }, "description": "Active yield positions." },
+    { "path": "/yield-farming-historical", "method": "GET", "price": "0.001", "class": "read-only", "category": "Portfolio", "params": { "userAddress": "address" }, "description": "Historical yield positions." }
+  ],
+  "autonomy": {
+    "summary": "For set-and-forget delegation, Otto autonomy operates a user-owned Safe on Base via a scoped, revocable, expiring session key bounded by an on-chain policy.",
+    "status": "in_development",
+    "note": "Not yet live. When it ships, fund and grant from the same Base Account used here. Follow @useOttoAI."
+  }
+}
